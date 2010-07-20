@@ -2,6 +2,8 @@
 
 Class Extension_Far_Future_Cache_Controller extends Extension{
 	
+	private $allowed_extensions = array('css', 'js', 'gif', 'jpg', 'png', 'swf');
+	
 	public function about() {
 		return array('name' => 'Far Futures Cache Controller',
 					 'version' => '0.1',
@@ -9,7 +11,7 @@ Class Extension_Far_Future_Cache_Controller extends Extension{
 					 'author' => array('name' => 'Nick Dunn',
 									   'website' => 'http://nick-dunn.co.uk',
 									   'email' => ''),
-						'description'   => 'Expire browser far-future headers when deploying a new revision from git'
+						'description'   => 'Expire browser far-future headers after deploying your website.'
 			 		);
 	}
 
@@ -69,13 +71,42 @@ Class Extension_Far_Future_Cache_Controller extends Extension{
 	public function add_param($context) {
 		
 		$git = DOCROOT . '/.git/FETCH_HEAD';
+		$static = MANIFEST . '/cache_controller';
 		
 		if (file_exists($git)) {
+			
 			$git_head = preg_match('/([0-9a-f]{5,40})/', file_get_contents($git), $matches);
 			$rev = $matches[0];
-			$context['params']['git-head'] = $rev;
+			$context['params']['cache-controller'] = $rev;
+		
+		} elseif (file_exists($static)) {
+
+			$context['params']['cache-controller'] = sha1(file_get_contents($static));
+			
+		} else {
+			
+			$last_modified = $this->get_last_modified(WORKSPACE);
+			$context['params']['cache-controller'] = sha1($last_modified);
+			
 		}
 		
+	}
+
+	function get_last_modified($path) {
+
+		if (!file_exists($path)) return false;
+
+		$extension = end(explode(".", $path));
+		
+		if (is_file($path) && in_array($extension, $this->allowed_extensions)) return filemtime($path);
+
+		$last_modified = 0;
+
+		foreach (glob($path . '/*') as $file) {
+			if ($this->get_last_modified($file) > $last_modified) $last_modified = $this->get_last_modified($file);
+		}
+		
+		return $last_modified;
 	}
 
 }

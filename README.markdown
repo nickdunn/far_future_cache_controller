@@ -25,9 +25,9 @@ Browsers won't even bother making a trip to the server to see whether a newer ve
 
 The only sound way to achieve this is to change the asset file name itself. The the most part this is completely impractical given the number of assets that may change between each release. If you're deploying your website directly from git then each time you make a deployment the latest HEAD value will change; a value that is ideal for creating unique URLs.
 
-This extension provides a single parameter in the Param Pool: `$git-head`. This will be a hash string which you should use to build URLs to assets served from your Symphony `/workspace` folder. Build URLs in the following way:
+This extension provides a single parameter in the Param Pool: `$cache-controller`. This will be a hash string which you should use to build URLs to assets served from your Symphony `/workspace` folder. Build URLs in the following way:
 
-	/workspace/{$git-head}/...
+	/workspace/{$cache-controller}/...
 
 So if your existing URL to a file is:
 
@@ -35,10 +35,20 @@ So if your existing URL to a file is:
 
 Then the new URL should be built as:
 
-	/workspace/{$git-head}/assets/css/master.css
+	/workspace/{$cache-controller}/assets/css/master.css
 
 When the page loads this URL will end up looking something like:
 
 	/workspace/7f9057226e4736faf7a0d8de7d5bfbaed580dfe0/assets/css/master.css
 
 The next time you pull an update from your origin git repository this hash will change, and clients will be forced to download fresh assets.
+
+### What if I don't use git?
+
+Fear not, you can still use this extension without git. If you prefer you can create a file in `/manifest` named `cache_controller` and change its value each time you want to bust the cache.
+
+	/manifest/cache_controller
+
+The value of this file will be hashed and used instead. So you can change its value to an SVN revision number, a timestamp, or the name of your favourite Teletubby.
+
+If that's too much work, then don't create that file at all. This extension will look at the last modified dates of all assets in your workspace (CSS, JS and images) and will hash the date of the newest file. So every time you deploy a new asset, your cache will expire. Sweet! Note however that this is not the most performant of the above methods, since every page load will recurse the file structure of your workspace directory looking for assets and their last modified times.
