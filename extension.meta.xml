@@ -9,6 +9,6 @@
 		</author>
 	</authors>
 	<releases>
-		<release version="0.1" date="2010-07-19"/>
+		<release version="0.1" date="2010-07-19">Experimental release</release>
 	</releases>
 </extension>

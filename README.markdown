@@ -1,9 +1,9 @@
 # Far Future Cache Controller
  
-Version: 0.1  
-Author: [Nick Dunn](http://nick-dunn.co.uk)  
-Build Date: 19 July 2010  
-Requirements: Symphony 2.0.6+
+* Version: 0.1  
+* Author: [Nick Dunn](http://nick-dunn.co.uk)  
+* Build Date: 19 July 2010  
+* Requirements: Symphony 2.0.6+
 
 **WARNING: this is an experimental prototype**
 
