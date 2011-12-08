@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension id="far_future_cache_controller" status="experimental" xmlns="http://symphony-cms.com/schemas/extension/1.0">
+	<name>Far Future Cache Controller</name>
+	<description>Expire browser far-future Expires headers after deploying an update from git</description>
+	<repo type="github">https://github.com/nickdunn/far_future_cache_controller</repo>
+	<authors>
+		<author>
+			<name github="nickdunn" symphony="nickdunn">Nick Dunn</name>
+		</author>
+	</authors>
+	<releases>
+		<release version="0.1" date="2010-07-19"/>
+	</releases>
+</extension>
