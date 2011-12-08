@@ -5,6 +5,8 @@ Author: [Nick Dunn](http://nick-dunn.co.uk)
 Build Date: 19 July 2010  
 Requirements: Symphony 2.0.6+
 
+**WARNING: this is an experimental prototype**
+
 ## Installation
  
 1. Upload the 'far_future_cache_controller' folder in this archive to your Symphony 'extensions' folder.
